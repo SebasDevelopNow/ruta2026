@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruta Velero Cerdeña-Córcega 2025</title>
+    <link rel="preconnect" href="[fonts.googleapis.com](https://fonts.googleapis.com)">
+    <link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap)" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 50%, #0ea5e9 100%);
+            min-height: 100vh;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        
+        /* LOGIN SCREEN */
+        #login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 50%, #0ea5e9 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .login-box {
+            background: white;
+            padding: 3rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        .login-box h1 {
+            font-size: 1.5rem;
+            color: #0369a1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-box .sailboat {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .login-box p {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+        }
+        
+        .login-box input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.2s;
+        }
+        
+        .login-box input:focus {
+            outline: none;
+            border-color: #0ea5e9;
+        }
+        
+        .login-box button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #0369a1, #0ea5e9);
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .login-box button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px rgba(14, 165, 233, 0.5);
+        }
+        
+        .error-msg {
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        
+        /* MAIN CONTENT */
+        #main-content {
+            display: none;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            color: #0369a1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header .dates {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* SUMMARY */
+        .summary {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .summary h2 {
+            color: #0369a1;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+        
+        .summary-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+        
+        .summary-day {
+            background: #0ea5e9;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-right: 1rem;
+            white-space: nowrap;
+        }
+        
+        /* DAY CARDS */
+        .day-card {
+            background: white;
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .day-header {
+            background: linear-gradient(135deg, #0369a1, #0ea5e9);
+            color: white;
+            padding: 1.5rem;
+        }
+        
+        .day-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .day-stats {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .day-stats span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .day-content {
+            padding: 1.5rem;
+        }
+        
+        .section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .section-title {
+            font-weight: 600;
+            color: #0369a1;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .option {
+            background: #f8fafc;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border-left: 4px solid #0ea5e9;
+        }
+        
+        .option:last-child {
+            margin-bottom: 0;
+        }
+        
+        .option-name {
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .option-detail {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-top: 0.25rem;
+        }
+        
+        .restaurant {
+            border-left-color: #f59e0b;
+        }
+        
+        .poi {
+            border-left-color: #10b981;
+        }
+        
+        /* NOTES */
+        .notes {
+            background: #fef3c7;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .notes h3 {
+            color: #92400e;
+            margin-bottom: 1rem;
+        }
+        
+        .notes ul {
+            list-style: none;
+        }
+        
+        .notes li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #78350f;
+        }
+        
+        .notes li::before {
+            content: "⚠️";
+            position: absolute;
+            left: 0;
+        }
+        
+        @media (max-width: 640px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .day-stats {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .summary-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen">
+        <div class="login-box">
+            <div class="sailboat">⛵</div>
+            <h1>Ruta Velero 2025</h1>
+            <p>Cerdeña & Córcega<br>24–29 Mayo</p>
+            <input type="password" id="password" placeholder="Introduce la contraseña" onkeypress="if(event.key==='Enter')checkPassword()">
+            <button onclick="checkPassword()">Entrar</button>
+            <p class="error-msg" id="error-msg">Contraseña incorrecta</p>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main-content">
+        <div class="header">
+            <h1>⛵ Ruta Velero: Cerdeña & Córcega</h1>
+            <p class="dates">24–29 Mayo 2025</p>
+        </div>
+        
+        <div class="container">
+            <!-- SUMMARY -->
+            <div class="summary">
+                <h2>🧭 Resumen del Viaje</h2>
+                <div class="summary-item">
+                    <span class="summary-day">Día 1</span>
+                    <span>Porto Rotondo → Porto Cervo (~22 mn, 4h30)</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-day">Día 2</span>
+                    <span>Porto Cervo → La Maddalena (~18 mn, 3h30)</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-day">Día 3</span>
+                    <span>La Maddalena → Bonifacio (~20 mn, 4h)</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-day">Día 4</span>
+                    <span>Bonifacio → Isola Budelli / Santa Maria (~22 mn, 4h30)</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-day">Día 5</span>
+                    <span>Budelli → Cala di Volpe / Capriccioli (~18 mn, 3h30)</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-day">Día 6</span>
+                    <span>Cala di Volpe → Porto Rotondo (~12 mn, 2h30)</span>
+                </div>
+            </div>
+
+            <!-- DAY 1 -->
+            <div class="day-card">
+                <div class="day-header">
+                    <h2>🟢 Día 1: Porto Rotondo → Porto Cervo</h2>
+                    <div class="day-stats">
+                        <span>📏 22 millas náuticas</span>
+                        <span>⏱️ ~4h 30min</span>
+                        <span>📅 24 mayo</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <p style="margin-bottom: 1rem; color: #64748b;">Puerto icónico de la Costa Smeralda, famoso por su ambiente exclusivo y aguas cristalinas.</p>
+                    
+                    <div class="section">
+                        <div class="section-title">⚓ Opciones para la noche</div>
+                        <div class="option">
+                            <div class="option-name">Marina Porto Cervo</div>
+                            <div class="option-detail">📞 +39 0789 91153 | VHF 9<br>📍 41.1366 N, 9.5333 E</div>
+                        </div>
+                        <div class="option">
+                            <div class="option-name">Cala Granu</div>
+                            <div class="option-detail">📍 41.1455 N, 9.5240 E<br>🌬️ Resguardada de vientos E–SE</div>
+                        </div>
+                        <div class="option">
+                            <div class="option-name">Liscia di Vacca</div>
+                            <div class="option-detail">📍 41.1390 N, 9.5150 E<br>🌬️ Resguardada de NE</div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">🍽️ Restaurantes</div>
+                        <div class="option restaurant">
+                            <div class="option-name">La Pergola in Giardino</div>
+                            <div class="option-detail">Cocina italiana refinada con producto local. Destacan pescados frescos y pasta artesanal.<br>📞 +39 0789 91251</div>
+                        </div>
+                        <div class="option restaurant">
+                            <div class="option-name">Il Pescatore</div>
+                            <div class="option-detail">Especialista en marisco fresco. Langosta y risotto de mar. Vistas al puerto.<br>📞 +39 0789 931111</div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">📍 Lugares de interés</div>
+                        <div class="option poi">
+                            <div class="option-name">Spiaggia del Principe</div>
+                            <div class="option-detail">📍 41.1515 N, 9.5550 E<br>Playa icónica de aguas turquesas y arena fina. Perfecta para fondeo corto y baño.</div>
+                        </div>
+                        <div class="option poi">
+                            <div class="option-name">Capriccioli</div>
+                            <div class="option-detail">📍 41.1540 N, 9.5670 E<br>Cala protegida con aguas poco profundas, ideal para snorkel.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 2 -->
+            <div class="day-card">
+                <div class="day-header">
+                    <h2>🟢 Día 2: Porto Cervo → La Maddalena</h2>
+                    <div class="day-stats">
+                        <span>📏 18 millas náuticas</span>
+                        <span>⏱️ ~3h 30min</span>
+                        <span>📅 25 mayo</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <p style="margin-bottom: 1rem; color: #64748b;">Archipiélago protegido con aguas transparentes y naturaleza salvaje.</p>
+                    
+                    <div class="section">
+                        <div class="section-title">⚓ Opciones para la noche</div>
+                        <div class="option">
+                            <div class="option-name">Marina di La Maddalena</div>
+                            <div class="option-detail">📞 +39 0789 737033 | VHF 74<br>📍 41.2130 N, 9.4080 E</div>
+                        </div>
+                        <div class="option">
+                            <div class="option-name">Cala Spalmatore</div>
+                            <div class="option-detail">📍 41.2320 N, 9.4020 E<br>🌬️ Resguardada de W</div>
+                        </div>
+                        <div class="option">
+                            <div class="option-name">Cala Francese</div>
+                            <div class="option-detail">📍 41.2205 N, 9.4280 E<br>🌬️ Resguardada de NW</div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">🍽️ Restaurantes</div>
+                        <div class="option restaurant">
+                            <div class="option-name">Ristorante L'Avventura</div>
+                            <div class="option-detail">Cocina local auténtica con pescado fresco. Muy recomendados los mejillones y pasta marinera.<br>📞 +39 0789 722563</div>
+                        </div>
+                        <div class="option restaurant">
+                            <div class="option-name">I Quattro Venti</div>
+                            <div class="option-detail">Terraza con vistas y cocina mediterránea. Destacan pizzas y pescado al horno.<br>📞 +39 0789 738073</div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">📍 Lugares de interés</div>
+                        <div class="option poi">
+                            <div class="option-name">Isola Spargi (Cala Corsara)</div>
+                            <div class="option-detail">📍 41.2500 N, 9.3500 E<br>Cala paradisíaca con formaciones rocosas únicas.</div>
+                        </div>
+                        <div class="option poi">
+                            <div class="option-name">Piscine Naturali di Budelli</div>
+                            <div class="option-detail">📍 41.2830 N, 9.3500 E<br>Aguas poco profundas y color turquesa intenso.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 3 -->
+            <div class="day-card">
+                <div class="day-header">
+                    <h2>🟢 Día 3: La Maddalena → Bonifacio</h2>
+                    <div class="day-stats">
+                        <span>📏 20 millas náuticas</span>
+                        <span>⏱️ ~4h</span>
+                        <span>📅 26 mayo</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <p style="margin-bottom: 1rem; color: #64748b;">Espectacular puerto encajado en acantilados blancos. Uno de los más impresionantes del Mediterráneo.</p>
+                    
+                    <div class="section">
+                        <div class="section-title">⚓ Opciones para la noche</div>
+                        <div class="option">
+                            <div class="option-name">Port de Bonifacio</div>
+                            <div class="option-detail">📞 +33 4 95 73 11 88 | VHF 9<br>📍 41.3875 N, 9.1590 E</div>
+                        </div>
+                        <div class="option">
+                            <div class="option-name">Anse de Fazzio</div>
+                            <div class="option-detail">📍 41.3900 N, 9.1400 E<br>🌬️ Resguardada de E</div>
+                        </div>
+                        <div class="option">
+                            <div class="option-name">Plage du Petit Sperone</div>
+                            <div class="option-detail">📍 41.3600 N, 9.2600 E<br>🌬️ Resguardada de W</div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">🍽️ Restaurantes</div>
+                        <div class="option restaurant">
+                            <div class="option-name">L'A Cheda</div>
+                            <div class="option-detail">Alta cocina corsa con productos locales. Recomendado cordero y vinos de la isla.<br>📞 +33 4 95 73 03 82</div>
+                        </div>
+                        <div class="option restaurant">
+                            <div class="option-name">Le Voilier</div>
+                            <div class="option-detail">Cocina mediterránea frente al puerto. Excelente pescado y marisco.<br>📞 +33 4 95 73 05 06</div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">📍 Lugares de interés</div>
+                        <div class="option poi">
+                            <div class="option-name">Acantilados de Bonifacio</div>
+                            <div class="option-detail">📍 41.3870 N, 9.1590 E<br>Impresionantes paredes blancas esculpidas por el mar.</div>
+                        </div>
+                        <div class="option poi">
+                            <div class="option-name">Grotta dello Sdragonato</div>
+                            <div class="option-detail">📍 41.3905 N, 9.1570 E<br>Cueva marina con apertura en forma de mapa de Córcega.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 4 -->
+            <div class="day-card">
+                <div class="day-header">
+                    <h2>🟢 Día 4: Bonifacio → Budelli / Santa Maria</h2>
+                    <div class="day-stats">
+                        <span>📏 22 millas náuticas</span>
+                        <span>⏱️ ~4h 30min</span>
+                        <span>📅 27 mayo</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <p style="margin-bottom: 1rem; color: #64748b;">Regreso al archipiélago de La Maddalena. Zona de fondeo sin marinas.</p>
+                    
+                    <div class="section">
+                        <div class="section-title">⚓ Opciones para la noche (fondeos)</div>
+                        <div class="option">
+                            <div class="option-name">Spiaggia Rosa (Budelli)</div>
+                            <div class="option-detail">📍 41.2800 N, 9.3500 E<br>🌬️ Resguardada de S</div>
+                        </div>
+                        <div class="option">
+                            <div class="option-name">Isola Santa Maria</div>
+                            <div class="option-detail">📍 41.2600 N, 9.4200 E<br>🌬️ Resguardada de W</div>
+                        </div>
+                        <div class="option">
+                            <div class="option-name">Rada Spargi</div>
+                            <div class="option-detail">📍 41.2500 N, 9.3500 E<br>🌬️ Resguardada de NE</div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">📍 Lugares de interés</div>
+                        <div class="option poi">
+                            <div class="option-name">Spiaggia Rosa</div>
+                            <div class="option-detail">Arena rosada única en el mundo (protegida, no desembarcar).</div>
+                        </div>
+                        <div class="option poi">
+                            <div class="option-name">Passo Cecca di Morto</div>
+                            <div class="option-detail">📍 41.3000 N, 9.3300 E<br>Canal espectacular entre islas.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 5 -->
+            <div class="day-card">
+                <div class="day-header">
+                    <h2>🟢 Día 5: Budelli → Cala di Volpe</h2>
+                    <div class="day-stats">
+                        <span>📏 18 millas náuticas</span>
+                        <span>⏱️ ~3h 30min</span>
+                        <span>📅 28 mayo</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <p style="margin-bottom: 1rem; color: #64748b;">Bahía elegante y protegida, ideal para última noche tranquila.</p>
+                    
+                    <div class="section">
+                        <div class="section-title">⚓ Opciones para la noche</div>
+                        <div class="option">
+                            <div class="option-name">Marina Cala di Volpe</div>
+                            <div class="option-detail">📞 +39 0789 96520 | VHF 9<br>📍 41.1385 N, 9.5650 E</div>
+                        </div>
+                        <div class="option">
+                            <div class="option-name">Capriccioli</div>
+                            <div class="option-detail">📍 41.1540 N, 9.5670 E<br>🌬️ Resguardada de NW</div>
+                        </div>
+                        <div class="option">
+                            <div class="option-name">Liscia Ruja</div>
+                            <div class="option-detail">📍 41.1450 N, 9.5800 E<br>🌬️ Resguardada de W</div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">🍽️ Restaurantes</div>
+                        <div class="option restaurant">
+                            <div class="option-name">Ristorante Cala di Volpe</div>
+                            <div class="option-detail">Cocina de lujo con vistas a la bahía. Pescado fresco y mariscos.<br>📞 +39 0789 976111</div>
+                        </div>
+                        <div class="option restaurant">
+                            <div class="option-name">La Tavernetta</div>
+                            <div class="option-detail">Cocina tradicional sarda. Recomendados culurgiones y pescado.<br>📞 +39 0789 96012</div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">📍 Lugares de interés</div>
+                        <div class="option poi">
+                            <div class="option-name">Liscia Ruja</div>
+                            <div class="option-detail">Gran playa de arena dorada.</div>
+                        </div>
+                        <div class="option poi">
+                            <div class="option-name">Romazzino</div>
+                            <div class="option-detail">📍 41.1470 N, 9.5700 E<br>Cala exclusiva de aguas cristalinas.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 6 -->
+            <div class="day-card">
+                <div class="day-header">
+                    <h2>🟢 Día 6: Cala di Volpe → Porto Rotondo</h2>
+                    <div class="day-stats">
+                        <span>📏 12 millas náuticas</span>
+                        <span>⏱️ ~2h 30min</span>
+                        <span>📅 29 mayo</span>
+                    </div>
+                </div>
+                <div class="day-content">
+                    <p style="margin-bottom: 1rem; color: #64748b;">Regreso a la base con tiempo para paradas opcionales.</p>
+                    
+                    <div class="section">
+                        <div class="section-title">📍 Paradas sugeridas en ruta</div>
+                        <div class="option poi">
+                            <div class="option-name">Isola di Mortorio</div>
+                            <div class="option-detail">📍 41.0800 N, 9.6000 E<br>Isla salvaje con aguas cristalinas.</div>
+                        </div>
+                        <div class="option poi">
+                            <div class="option-name">Punta Volpe</div>
+                            <div class="option-detail">📍 41.0250 N, 9.5500 E<br>Buen punto para última parada antes de base.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NOTES -->
+            <div class="notes">
+                <h3>✅ Notas importantes</h3>
+                <ul>
+                    <li>Ruta equilibrada y sin estrés (máx ~4h30 navegación/día)</li>
+                    <li>Buen equilibrio entre marinas y fondeos</li>
+                    <li>Zonas protegidas: cuidado con normativa en La Maddalena</li>
+                    <li>Vientos dominantes: Mistral (NW) y Scirocco (SE) → planifica calas según protección</li>
+                    <li>Total aproximado: ~112 millas náuticas en 6 días</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // CAMBIA ESTA CONTRASEÑA por la que quieras
+        const PASSWORD = "sardo2026";
+        
+        function checkPassword() {
+            const input = document.getElementById('password').value;
+            const errorMsg = document.getElementById('error-msg');
+            
+            if (input === PASSWORD) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                sessionStorage.setItem('authenticated', 'true');
+            } else {
+                errorMsg.style.display = 'block';
+                document.getElementById('password').value = '';
+            }
+        }
+        
+        // Check if already authenticated in this session
+        if (sessionStorage.getItem('authenticated') === 'true') {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
